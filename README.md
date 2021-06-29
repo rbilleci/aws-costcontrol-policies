@@ -64,6 +64,51 @@ You can customize the `sagemkaer:InstanceTypes` array in the condition property 
             "d*.*",
             "x*.*",
             "*.metal",
+            "*.6xlarge",
+            "*.8xlarge",
+            "*.9xlarge",
+            "*.10xlarge",
+            "*.12xlarge",
+            "*.16xlarge",
+            "*.18xlarge",
+            "*.24xlarge",
+            "*.32xlarge"
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+
+This policy restricts the instance types that may be used for SageMaker training and processing jobs. 
+You can customize the `sagemkaer:InstanceTypes` array in the condition property to control the allowed instance types.
+
+
+### 
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "RestrictSageMakerJobInstanceTypes",
+      "Effect": "Deny",
+      "Action": [
+        "sagemaker:CreateProcessingJob",
+        "sagemaker:CreateTrainingJob"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ForAnyValue:StringLike": {
+          "sagemaker:InstanceTypes": [
+            "u*.*",
+            "z*.*",
+            "i*.*",
+            "h*.*",
+            "d*.*",
+            "x*.*",
+            "*.metal",
             "*.4xlarge",
             "*.6xlarge",
             "*.8xlarge",
