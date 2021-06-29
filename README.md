@@ -206,7 +206,6 @@ You can customize the `aws:RequestionRegion` array in the condition property to 
         "cloudfront:*",
         "config:*",
         "cur:*",
-        "directconnect:*",
         "ec2:DescribeRegions",
         "ec2:DescribeTransitGateways",
         "ec2:DescribeVpnGateways",
