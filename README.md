@@ -82,6 +82,7 @@ You can customize the `sagemkaer:InstanceTypes` array in the condition property 
 }
 ```
 
+### Restrict Instance Types for Training and Processing Jobs
 
 This policy restricts the instance types that may be used for SageMaker training and processing jobs. 
 You can customize the `sagemkaer:InstanceTypes` array in the condition property to control the allowed instance types.
