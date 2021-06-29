@@ -2,7 +2,11 @@
 # Overview
 
 The project is a collection of AWS Security Control Policies that can be used to control costs on accounts. 
-The policies limit use of larger EC2 instance types and limit access to specified regions.
+The policies:
+1. restrict use of expensive instance types for EC2 and Amazon SageMaker
+2. restrict use of expensive RDS instance types 
+3. restrict access to specified regions
+4. restrict access to certain services, such as Amazon Redshift
 
 ### Restrict SageMaker Studio Instance Types
 
@@ -133,8 +137,6 @@ You can customize the `sagemkaer:InstanceTypes` array in the condition property 
 This policy restricts the instance types a user may start. 
 You can customize the `ec2:InstanceType` array in the condition property to control the allowed instance types.
 
-
-
 ```json
 {
   "Version": "2012-10-17",
@@ -173,6 +175,42 @@ You can customize the `ec2:InstanceType` array in the condition property to cont
   ]
 }
 ```
+
+
+### Restrict RDS Instance Types
+
+This policy restricts the RDS Database Classes a user may create. 
+You can customize the `rds:DatabaseClass` array in the condition property to control the allowed instance types.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "RestrictRDSDatabaseClass",
+      "Effect": "Deny",
+      "Action": [
+        "rds:CreateDBInstance",
+        "rds:CreateDBCluster"
+      ],
+      "Condition": {
+        "ForAnyValue:StringLike": {
+          "rds:DatabaseClass": [
+            "*.2xlarge",
+            "*.4xlarge",
+            "*.8xlarge",
+            "*.12xlarge",
+            "*.16xlarge",
+            "*.24xlarge"
+          ]
+        }
+      },
+      "Resource": "*"
+    }
+  ]
+}
+```
+
 
 ### Regional Access policy
 
@@ -232,6 +270,33 @@ You can customize the `aws:RequestionRegion` array in the condition property to 
         "waf:*",
         "wafv2:*",
         "wellarchitected:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+
+### Restrict access to specific services
+
+This policy restricts access certain AWS Services
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "RestrictServices",
+      "Effect": "Deny",
+      "Action": [
+        "acm-pca:*",
+        "braket:*",
+        "cloudhsm:*",
+        "directconnect:*",
+        "outposts:*",
+        "redshift:*",
+        "snowball:*"
       ],
       "Resource": "*"
     }
